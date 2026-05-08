@@ -1,0 +1,42 @@
+{
+  "chains": {
+    "星巴克": { "category": "chain", "weight": 0.7, "aliases": ["Starbucks", "スターバックス"] },
+    "瑞幸": { "category": "chain", "weight": 0.6, "aliases": ["Luckin", "luckin coffee"] },
+    "Manner": { "category": "chain", "weight": 0.75, "aliases": [] },
+    "Peet's": { "category": "chain", "weight": 0.8, "aliases": ["Peets", "皮爷"] },
+    "Costa": { "category": "chain", "weight": 0.7, "aliases": ["咖世家"] },
+    "Tims": { "category": "chain", "weight": 0.72, "aliases": ["Tim Hortons"] },
+    "M Stand": { "category": "chain", "weight": 0.78, "aliases": [] },
+    "% Arabica": { "category": "chain", "weight": 0.85, "aliases": ["Arabica", "百分号咖啡"] },
+    "Seesaw": { "category": "chain", "weight": 0.8, "aliases": [] },
+    "Grid Coffee": { "category": "chain", "weight": 0.78, "aliases": [] },
+    "Metal Hands": { "category": "independent", "weight": 0.85, "aliases": ["铁手"] },
+    "S.O.E": { "category": "independent", "weight": 0.82, "aliases": [] },
+    "Voyage": { "category": "independent", "weight": 0.8, "aliases": [] },
+    " illy ": { "category": "chain", "weight": 0.75, "aliases": [] },
+    "Lavazza": { "category": "chain", "weight": 0.73, "aliases": [] },
+    "太平洋咖啡": { "category": "chain", "weight": 0.65, "aliases": ["Pacific Coffee"] },
+    "麦咖啡": { "category": "chain", "weight": 0.5, "aliases": ["McCafe"] },
+    "K咖啡": { "category": "chain", "weight": 0.5, "aliases": ["KFC咖啡"] },
+    "便利蜂": { "category": "chain", "weight": 0.35, "aliases": [] },
+    "7-ELEVEn": { "category": "chain", "weight": 0.3, "aliases": ["7-11咖啡"] },
+    "喜茶": { "category": "chain", "weight": 0.45, "aliases": [] },
+    "奈雪": { "category": "chain", "weight": 0.45, "aliases": ["奈雪の茶"] }
+  },
+  "categoryWeights": {
+    "chain": 0.65,
+    "independent": 0.9,
+    "hotel": 0.55,
+    "bookstore": 0.7,
+    "mall": 0.5,
+    "community": 0.75,
+    "other": 0.6
+  },
+  "spaceKeywords": {
+    "office": ["办公", "商务", "laptop", "WiFi", "wifi", "插座", "安静", "书房", "工作室", "联合办公"],
+    "photo": ["打卡", "拍照", "ins风", "网红", "出片", "颜值", "设计", "美学", "空间", "展览"],
+    "social": ["社交", "聚会", "约会", "聊天", " meeting", "活动", "派对", "barista"],
+    "quiet": ["安静", "阅读", "独处", "慢", "静谧", "自习", "书房", "library"],
+    "pet": ["宠物", "dog", "cat", "毛孩子", "狗狗", "猫猫"]
+  }
+}
