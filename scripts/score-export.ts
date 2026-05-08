@@ -43,7 +43,7 @@ function main() {
         id: p.id,
         name: p.name,
         brand: p.brand,
-        brandCategory: p.brandCategory as any,
+        brandCategory: p.brandCategory as CafeFeature['properties']['brandCategory'],
         address: p.address,
         district: p.district,
         lng: p.lng,

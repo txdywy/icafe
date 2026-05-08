@@ -22,6 +22,62 @@ interface RawPoi {
   adname?: string;
 }
 
+interface AmapPoi {
+  name: string;
+  address?: string;
+  location: string;
+  tel?: string;
+  type?: string;
+  photos?: Array<{ url: string }>;
+  biz_ext?: {
+    rating?: string;
+    cost?: string;
+  };
+  adname?: string;
+}
+
+interface AmapResponse {
+  status: string;
+  pois?: AmapPoi[];
+}
+
+interface TencentPoi {
+  title: string;
+  address: string;
+  location: {
+    lng: number;
+    lat: number;
+  };
+  tel?: string;
+  category?: string;
+  rating?: string | number;
+}
+
+interface TencentResponse {
+  status: number;
+  data?: TencentPoi[];
+}
+
+interface BaiduPoi {
+  name: string;
+  address: string;
+  location: {
+    lng: number;
+    lat: number;
+  };
+  telephone?: string;
+  detail_info?: {
+    type?: string;
+    overall_rating?: string | number;
+    price?: string | number;
+  };
+}
+
+interface BaiduResponse {
+  status: number;
+  results?: BaiduPoi[];
+}
+
 const AMAP_KEY = process.env.AMAP_KEY || '';
 const TENCENT_KEY = process.env.TENCENT_MAP_KEY || '';
 const BAIDU_AK = process.env.BAIDU_MAP_AK || '';
@@ -49,23 +105,23 @@ async function fetchAmapAll(keyword: string, polygon: string): Promise<RawPoi[]>
 
   while (page <= 20) {
     try {
-      const { data } = await axios.get(url, {
+      const { data } = await axios.get<AmapResponse>(url, {
         params: { key: AMAP_KEY, polygon, keywords: keyword, offset, page, extensions: 'all' },
         timeout: 15000,
       });
       if (data.status !== '1' || !data.pois || data.pois.length === 0) break;
 
-      const pois = data.pois.map((p: any) => ({
+      const pois = data.pois.map((p): RawPoi => ({
         name: p.name,
         address: p.address || p.adname || '',
         location: p.location,
         tel: p.tel,
         type: p.type,
-        photos: p.photos?.map((ph: any) => ph.url) ?? [],
+        photos: p.photos?.map(ph => ph.url) ?? [],
         rating: p.biz_ext?.rating,
         cost: p.biz_ext?.cost,
         adname: p.adname,
-      })).filter((p: RawPoi) => isInBeijing(p.address, p.adname));
+      })).filter((p) => isInBeijing(p.address, p.adname));
 
       all.push(...pois);
       if (data.pois.length < offset) break;
@@ -88,19 +144,19 @@ async function fetchTencentAll(keyword: string, boundary: string): Promise<RawPo
 
   while (page <= 25) {
     try {
-      const { data } = await axios.get(url, {
+      const { data } = await axios.get<TencentResponse>(url, {
         params: { key: TENCENT_KEY, keyword, boundary, page_index: page - 1, page_size },
         timeout: 15000,
       });
       if (data.status !== 0 || !data.data || data.data.length === 0) break;
-      const pois = data.data.map((p: any) => ({
+      const pois = data.data.map((p): RawPoi => ({
         name: p.title,
         address: p.address,
         location: `${p.location.lng},${p.location.lat}`,
         tel: p.tel,
         type: p.category,
-        rating: p.rating,
-      })).filter((p: RawPoi) => isInBeijing(p.address));
+        rating: p.rating?.toString(),
+      })).filter((p) => isInBeijing(p.address));
       all.push(...pois);
       if (data.data.length < page_size) break;
       page++;
@@ -122,20 +178,20 @@ async function fetchBaiduAll(keyword: string, bounds: string): Promise<RawPoi[]>
 
   while (page <= 25) {
     try {
-      const { data } = await axios.get(url, {
+      const { data } = await axios.get<BaiduResponse>(url, {
         params: { ak: BAIDU_AK, query: keyword, bounds, page_num: page - 1, page_size, output: 'json', scope: 2 },
         timeout: 15000,
       });
       if (data.status !== 0 || !data.results || data.results.length === 0) break;
-      const pois = data.results.map((p: any) => ({
+      const pois = data.results.map((p): RawPoi => ({
         name: p.name,
         address: p.address,
         location: `${p.location.lng},${p.location.lat}`,
         tel: p.telephone,
         type: p.detail_info?.type,
-        rating: p.detail_info?.overall_rating,
-        cost: p.detail_info?.price,
-      })).filter((p: RawPoi) => isInBeijing(p.address));
+        rating: p.detail_info?.overall_rating?.toString(),
+        cost: p.detail_info?.price?.toString(),
+      })).filter((p) => isInBeijing(p.address));
       all.push(...pois);
       if (data.results.length < page_size) break;
       page++;
